@@ -252,7 +252,10 @@ namespace castlecrawl
         M_CHECK((surfacePtr != nullptr), "Tried to getPixel() from a nullptr!");
 
         const int bpp = surfacePtr->format->BytesPerPixel;
-        const Uint8 * pixelPtr = (Uint8 *)surfacePtr->pixels + y * surfacePtr->pitch + x * bpp;
+
+        const Uint8 * pixelPtr = static_cast<Uint8 *>(surfacePtr->pixels) +
+                                 static_cast<std::ptrdiff_t>(y * surfacePtr->pitch + x * bpp);
+
         Uint32 data = *(Uint32 *)pixelPtr;
 
         if (1 == bpp)
@@ -267,11 +270,11 @@ namespace castlecrawl
         {
             if constexpr (SDL_BYTEORDER == SDL_BIG_ENDIAN)
             {
-                data = (pixelPtr[0] << 16 | pixelPtr[1] << 8 | pixelPtr[2]);
+                data = static_cast<Uint32>(pixelPtr[0] << 16 | pixelPtr[1] << 8 | pixelPtr[2]);
             }
             else
             {
-                data = (pixelPtr[0] | pixelPtr[1] << 8 | pixelPtr[2] << 16);
+                data = static_cast<Uint32>(pixelPtr[0] | pixelPtr[1] << 8 | pixelPtr[2] << 16);
             }
         }
 
@@ -285,8 +288,10 @@ namespace castlecrawl
     {
         M_CHECK((surfacePtr != nullptr), "Tried to setPixel() with a nullptr!");
 
-        Uint32 * pixelPtr =
-            (Uint32 *)((Uint8 *)surfacePtr->pixels + y * surfacePtr->pitch + x * surfacePtr->format->BytesPerPixel);
+        Uint32 * pixelPtr = (Uint32 *)(
+            static_cast<Uint8 *>(surfacePtr->pixels) +
+            static_cast<std::ptrdiff_t>(
+                y * surfacePtr->pitch + x * surfacePtr->format->BytesPerPixel));
 
         *pixelPtr = color;
     }
