@@ -196,7 +196,9 @@ namespace castlecrawl
         SDL_Texture * const texturePtr = SDL_CreateTextureFromSurface(m_rendererPtr, surfacePtr);
 
         M_CHECK(
-            (texturePtr != nullptr), "SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
+            (texturePtr != nullptr),
+            "While loadTexture(" << path << ", size=" << size.x << 'x' << size.y
+                                 << ") SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
 
         util::freeSurface(surfacePtr);
 
@@ -213,12 +215,17 @@ namespace castlecrawl
             SDL_ConvertSurfaceFormat(surfacePtr, SDL_PIXELFORMAT_RGBA8888, 0);
 
         M_CHECK(
-            (convSurfacePtr != nullptr), "SDL_ConvertSurfaceFormat() failed: " << SDL_GetError());
+            (convSurfacePtr != nullptr),
+            "While loadAndMaskTexture("
+                << path << ") SDL_ConvertSurfaceFormat() failed: " << SDL_GetError());
 
         util::freeSurface(surfacePtr);
 
         const int setBlendModeResult = SDL_SetSurfaceBlendMode(convSurfacePtr, SDL_BLENDMODE_BLEND);
-        M_CHECK((setBlendModeResult == 0), "SDL_SetSurfaceBlendMode() failed: " << SDL_GetError());
+        M_CHECK(
+            (setBlendModeResult == 0),
+            "While loadAndMaskTexture("
+                << path << ") SDL_SetSurfaceBlendMode() failed: " << SDL_GetError());
 
         SDL_LockSurface(convSurfacePtr);
 
@@ -239,7 +246,9 @@ namespace castlecrawl
             SDL_CreateTextureFromSurface(m_rendererPtr, convSurfacePtr);
 
         M_CHECK(
-            (texturePtr != nullptr), "SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
+            (texturePtr != nullptr),
+            "While loadAndMaskTexture("
+                << path << ") SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
 
         util::freeSurface(convSurfacePtr);
 
@@ -304,14 +313,18 @@ namespace castlecrawl
 
         M_CHECK(
             ((size.x > 0) && (size.y > 0)),
-            "Tried to create an sf::Text of size too small! (" << size.x << 'x' << size.y << ")");
+            "While makeTextTexture(\"" << sfmlText.getString().toAnsiString()
+                                       << "\") Tried to create an sf::Text of size too small! ("
+                                       << size.x << 'x' << size.y << ")");
 
         sf::RenderTexture renderTexture;
         const bool renderTextureCreateResult = renderTexture.create(size.x, size.y);
 
         M_CHECK(
             renderTextureCreateResult,
-            "sf::RenderTexture::create(" << size.x << 'x' << size.y << ") failed!");
+            "While makeTextTexture(\"" << sfmlText.getString().toAnsiString()
+                                       << "\") sf::RenderTexture::create(" << size.x << 'x'
+                                       << size.y << ") failed!");
 
         // If you draw text to a transparent texture using BlendAlpha the result will be ugly/fuzzy.
         // No clue why and the sfml forums don't know either...
@@ -330,12 +343,17 @@ namespace castlecrawl
 
         M_CHECK(
             (surfacePtr != nullptr),
-            "SDL_CreateRGBSurfaceWithFormat("
+            "While makeTextTexture(\""
+                << sfmlText.getString().toAnsiString() << "\") SDL_CreateRGBSurfaceWithFormat("
                 << size.x << 'x' << size.y
                 << ", 32bit, SDL_PIXELFORMAT_RGBA8888) failed: " << SDL_GetError());
 
         const int setBlendModeResult = SDL_SetSurfaceBlendMode(surfacePtr, SDL_BLENDMODE_BLEND);
-        M_CHECK((setBlendModeResult == 0), "SDL_SetSurfaceBlendMode() failed: " << SDL_GetError());
+        M_CHECK(
+            (setBlendModeResult == 0),
+            "While makeTextTexture(\""
+                << sfmlText.getString().toAnsiString()
+                << "\") SDL_SetSurfaceBlendMode() failed: " << SDL_GetError());
 
         SDL_LockSurface(surfacePtr);
 
@@ -356,7 +374,10 @@ namespace castlecrawl
         SDL_Texture * const texturePtr = SDL_CreateTextureFromSurface(m_rendererPtr, surfacePtr);
 
         M_CHECK(
-            (texturePtr != nullptr), "SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
+            (texturePtr != nullptr),
+            "While makeTextTexture(\"" << sfmlText.getString().toAnsiString()
+                                       << "\") SDL_CreateTextureFromSurface(" << size.x << 'x'
+                                       << size.y << ") failed: " << SDL_GetError());
 
         util::freeSurface(surfacePtr);
 
