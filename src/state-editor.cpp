@@ -302,17 +302,21 @@ namespace castlecrawl
 
     void StateEditor::save() const
     {
-        std::ofstream fStream("map.txt", std::ios::trunc);
-
-        // clang-format off
-        switch (m_floor)
+        std::string filename{ "map.txt" };
+        std::size_t filenum = 1;
+        std::filesystem::path path{ filename };
+        while (std::filesystem::exists(path))
         {
-            case Floor::Dirt:   { fStream << "Dirt" << std::endl; break; }
-            case Floor::Stone:  { fStream << "Stone" << std::endl; break; }
-            case Floor::Wood:   { fStream << "Wood" << std::endl; break; }
-            default:            { fStream << "(floor type error)" << std::endl; break; }
-        }
-        // clang-format on
+            filename = "map";
+            filename += std::to_string(filenum++);
+            filename += ".txt";
+
+            path = { filename };
+        };
+
+        std::ofstream fStream(filename, std::ios::trunc);
+
+        fStream << toString(m_floor) << std::endl;
 
         for (const std::string & rowStr : m_mapChars)
         {

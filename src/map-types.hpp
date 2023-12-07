@@ -41,6 +41,19 @@ namespace castlecrawl
         Wood
     };
 
+    inline constexpr std::string_view toString(const Floor floor) noexcept
+    {
+        // clang-format off
+        switch (floor)
+        {
+            case Floor::Dirt:   { return "Dirt"; }
+            case Floor::Stone:  { return "Stone"; }
+            case Floor::Wood:   { return "Wood"; }
+            default:            { return "(unknown_floor)"; }
+        }
+        // clang-format on
+    }
+
     enum class MapName
     {
         Level_1_Cell,
