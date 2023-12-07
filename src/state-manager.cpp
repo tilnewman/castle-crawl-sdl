@@ -27,10 +27,7 @@ namespace castlecrawl
             (newState != currentState), "Tried to change to the same State! (" << newState << ")");
 
         m_stateUPtr->onExit(context);
-
-        m_stateUPtr.release();
         m_stateUPtr = factory(newState);
-
         m_stateUPtr->onEnter(context);
     }
 
