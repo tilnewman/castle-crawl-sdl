@@ -3,6 +3,8 @@
 //
 // turn-keeper.cpp
 //
+#include "context.hpp"
+#include "enemy.hpp"
 #include "turn-keeper.hpp"
 
 namespace castlecrawl
@@ -15,7 +17,13 @@ namespace castlecrawl
 
     void TurnKeeper::passTurn(const Context & context)
     {
-        // TODO check for enemies
+        if (isPlayerTurn())
+        {
+            if (context.enemy.isAnyNonSummoner())
+            {
+                context.enemy.takeTurns(context);
+            }
+        }
     }
 
 } // namespace castlecrawl

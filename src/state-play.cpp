@@ -156,9 +156,13 @@ namespace castlecrawl
         if (didMove)
         {
             context.player.position(context, mapPosAfter);
-            handleMapTransition(context, mapPosAfter);
+
+            if (!handleMapTransition(context, mapPosAfter))
+            {
+                context.turn.passTurn(context);
+            }
+
             playMoveMusic(context);
-            context.turn.passTurn(context);
         }
     }
 

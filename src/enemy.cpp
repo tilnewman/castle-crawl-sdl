@@ -110,6 +110,30 @@ namespace castlecrawl
         return false;
     }
 
+    bool Enemies::isAnyNonSummoner() const
+    {
+        for (const EnemyInstance & enemy : m_enemies)
+        {
+            if (!enemy.isSummoner())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void Enemies::takeTurns(const Context & context)
+    {
+        for (EnemyInstance & enemy : m_enemies)
+        {
+            if (!enemy.isSummoner())
+            {
+                act(context, enemy);
+            }
+        }
+    }
+
     void Enemies::act(const Context & context, EnemyInstance & enemy)
     {
         if (enemy.isSummoner())

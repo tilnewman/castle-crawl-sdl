@@ -417,6 +417,8 @@ namespace castlecrawl
         void removeAll() { m_enemies.clear(); }
         void draw(const Context & context) const;
         bool isAnyAtMapPos(const MapPos_t & pos) const;
+        bool isAnyNonSummoner() const;
+        void takeTurns(const Context & context);
 
       private:
         void act(const Context & context, EnemyInstance & enemy);
