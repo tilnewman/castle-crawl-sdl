@@ -111,7 +111,7 @@ namespace castlecrawl
 
     void MapDisplay::appendLiquidEdgeRects(const Context & context)
     {
-        auto notLiq = [](const char ch) { return ((ch != 'l') && (ch != 'w')); };
+        auto notLiq = [](const char ch) { return ((ch != 'l') && (ch != 'w') && (ch != 'g')); };
 
         auto validNotLiquid = [&](const char ch, const MapPos_t & pos) {
             return (notLiq(ch) && context.map.isPosValid(pos));

@@ -107,7 +107,7 @@ namespace castlecrawl
             const std::string keyText(
                 "Esc-Quit\nCNTRL-s-Save\nSpace-Bare Floor\nPeriod-Erase\n"
                 "1-Dirt Floor\n2-Stone Floor\n3-Wood Floor\n"
-                "r-Rock\nl-Lava\nw-Water\nc-Chest\nk-Coffin\n"
+                "r-Rock\nl-Lava\nw-Water\ng-Slime\nc-Chest\nk-Coffin\n"
                 "S-Stairs Up\ns-Stair Down\nD-Door Locked\nd-Door Unlocked\n"
                 "0-Snake\n1-SnakeBag\n2-Spider\n3-Spiderweb\n4-Goblin\n5-GoblinBarrel\n"
                 "6-Bat\n7-BatMask\n8-Skeleton\n9-SkeletonGrave\n:-Demon\n;-DemonDoor\n"
@@ -224,6 +224,7 @@ namespace castlecrawl
         else if (event.key.keysym.sym == SDLK_r)            { editMap(context, isShift, 'r', 'r'); }
         else if (event.key.keysym.sym == SDLK_l)            { editMap(context, isShift, 'l', 'l'); }
         else if (event.key.keysym.sym == SDLK_w)            { editMap(context, isShift, 'w', 'w'); }
+        else if (event.key.keysym.sym == SDLK_g)            { editMap(context, isShift, 'g', 'g'); }
         else if (event.key.keysym.sym == SDLK_b)            { editMap(context, isShift, 'b', 'b'); }
         else if (event.key.keysym.sym == SDLK_c)            { editMap(context, isShift, 'c', 'c'); }
         else if (event.key.keysym.sym == SDLK_k)            { editMap(context, isShift, 'k', 'k'); }
@@ -338,6 +339,7 @@ namespace castlecrawl
             case 'r': { return "Rock"; }
             case 'l': { return "Lava"; }
             case 'w': { return "Water"; }
+            case 'g': { return "Slime"; }
             case 'b': { return "Barrel"; }
             case 'c': { return "Chest"; }
             case 'k': { return "Coffin"; }
