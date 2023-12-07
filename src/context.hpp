@@ -26,6 +26,7 @@ namespace castlecrawl
     class Enemies;
     class FramerateText;
     class TopPanel;
+    class TurnKeeper;
 
     struct Context
     {
@@ -45,7 +46,8 @@ namespace castlecrawl
             FontManager & fontManagerParam,
             Enemies & enemiesParam,
             FramerateText & framerateTextParam,
-            TopPanel & topPanelParam)
+            TopPanel & topPanelParam,
+            TurnKeeper & turnKeeperParam)
             : sdl(sdlManagerParam)
             , config(configParam)
             , tile_image(tileImagesParam)
@@ -62,6 +64,7 @@ namespace castlecrawl
             , enemy(enemiesParam)
             , framerate(framerateTextParam)
             , top_panel(topPanelParam)
+            , turn(turnKeeperParam)
         {}
 
         SDLManager & sdl;
@@ -80,7 +83,8 @@ namespace castlecrawl
         Enemies & enemy;
         FramerateText & framerate;
         TopPanel & top_panel;
-        bool is_game_over = false;
+        TurnKeeper & turn;
+        bool is_game_over;
     };
 
 } // namespace castlecrawl

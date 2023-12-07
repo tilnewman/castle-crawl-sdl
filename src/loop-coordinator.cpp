@@ -33,6 +33,7 @@ namespace castlecrawl
         , m_framerate()
         , m_topPanel()
         , m_stateManager()
+        , m_turnKeeper()
         , m_context(
               m_sdlManager,
               m_config,
@@ -49,7 +50,8 @@ namespace castlecrawl
               m_fonts,
               m_enemies,
               m_framerate,
-              m_topPanel)
+              m_topPanel,
+              m_turnKeeper)
     {}
 
     void LoopCoordinator::playGame()

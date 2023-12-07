@@ -20,6 +20,7 @@
 #include "state-manager.hpp"
 #include "tile-images.hpp"
 #include "top-panel.hpp"
+#include "turn-keeper.hpp"
 
 namespace castlecrawl
 {
@@ -57,6 +58,7 @@ namespace castlecrawl
         FramerateText m_framerate;
         TopPanel m_topPanel;
         StateManager m_stateManager;
+        TurnKeeper m_turnKeeper;
 
         Context m_context;
     };

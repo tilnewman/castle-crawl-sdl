@@ -20,6 +20,7 @@
 #include "sound-player.hpp"
 #include "state-manager.hpp"
 #include "top-panel.hpp"
+#include "turn-keeper.hpp"
 
 namespace castlecrawl
 {
@@ -110,6 +111,12 @@ namespace castlecrawl
             return;
         }
 
+        // all other handlers are only valid if it's the player's turn
+        if (!context.turn.isPlayerTurn())
+        {
+            return;
+        }
+
         if ((event.key.keysym.sym == SDLK_UP) || (event.key.keysym.sym == SDLK_DOWN) ||
             (event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_RIGHT))
         {
@@ -151,6 +158,7 @@ namespace castlecrawl
             context.player.position(context, mapPosAfter);
             handleMapTransition(context, mapPosAfter);
             playMoveMusic(context);
+            context.turn.passTurn(context);
         }
     }
 
