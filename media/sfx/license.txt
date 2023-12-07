@@ -1,0 +1,31 @@
+File:          door-open.ogg
+By:            inspectorj
+From:          freesound.org/people/InspectorJ/sounds/339677
+Original Name: "door-church-close-e"
+License:       CC-BY-3.0
+Link:          creativecommons.org/licenses/by/3.0/
+
+
+File:          spider.ogg
+By:            freesound.org/people/columbia23 
+Original Name: “spider-voice"
+License:       CC-BY 3.0
+Link:          creativecommons.org/licenses/by/3.0/
+
+
+File:	       stairs.ogg
+By:            sinatra314
+Original Name: "footsteps-wooden-floor-loop"
+From:          footsteps-wood__freesound.org/people/sinatra314/sounds/58454
+License:       CC-BY-3.0
+Link:          creativecommons.org/licenses/by/3.0/
+
+
+
+All other files posted to OpenGameArt.org or FreeSound.org by various authors under the Public Domain.  (CC0 1.0) (No Copyright)
+creativecommons.org/publicdomain/zero/1.0/
+
+
+
+All files were trimmed, normalized, and faded, and converted to the OGG file format.
+2020-1-19

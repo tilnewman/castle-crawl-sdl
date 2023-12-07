@@ -1,0 +1,23 @@
+File:          splash.png and summon.png
+Comment:       Some of the images in these files are from "lorc"
+From:          game-icons.net
+Original Name: castle--lorc.svg
+License:       CC-BY-3.0
+Link:          creativecommons.org/licenses/by/3.0/
+
+
+File:          tile.png
+Comment:	       Some of the images in this file are from...
+By:            lostgarden.home.blog/2006/07/08/more-free-game-graphics/
+Original Name: “Daniel Cook’s Map Tiles"
+License:       CC-BY 3.0
+Link:          creativecommons.org/licenses/by/3.0/
+
+
+
+All other files posted to OpenGameArt.org by various authors under the Public Domain.  (CC0 1.0) (No Copyright)
+creativecommons.org/publicdomain/zero/1.0/
+
+
+
+2020-1-19
