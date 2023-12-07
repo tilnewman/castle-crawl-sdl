@@ -249,7 +249,7 @@ namespace util
 
         if (loadAnimationImages(sdl, dirEntry, *imageCachePtr))
         {
-            std::cout << "Loaded Animation: " << imageCachePtr->toString() << std::endl;
+            // std::cout << "Loaded Animation: " << imageCachePtr->toString() << std::endl;
             m_imageCaches.push_back(std::move(imageCachePtr));
         }
     }

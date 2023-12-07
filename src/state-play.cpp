@@ -75,6 +75,7 @@ namespace castlecrawl
 
         context.player.update(frameTimeSec);
         context.framerate.update(context, frameTimeSec);
+        context.anim.update(frameTimeSec);
     }
 
     void StatePlay::draw(const Context & context) const
@@ -92,6 +93,7 @@ namespace castlecrawl
 
         context.framerate.draw(context);
         context.top_panel.draw(context);
+        context.anim.draw(context.sdl);
     }
 
     void StatePlay::handleEvent(const Context & context, const SDL_Event & event)
