@@ -78,10 +78,10 @@ namespace castlecrawl
     {
         context.map_display.draw(context);
         context.enemy.draw(context);
-        context.player.draw(context);
 
         if (!m_fader.isFading())
         {
+            context.player.draw(context);
             m_mouseover.draw(context);
         }
 
