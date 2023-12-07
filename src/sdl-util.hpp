@@ -103,16 +103,24 @@ inline std::ostream & operator<<(std::ostream & os, const SDL_RendererInfo & inf
        << '(';
 
     if (info.flags & SDL_RENDERER_SOFTWARE)
+    {
         os << "soft|";
+    }
 
     if (info.flags & SDL_RENDERER_ACCELERATED)
+    {
         os << "acc|";
+    }
 
     if (info.flags & SDL_RENDERER_PRESENTVSYNC)
+    {
         os << "vsyn|";
+    }
 
     if (info.flags & SDL_RENDERER_TARGETTEXTURE)
+    {
         os << "text|";
+    }
 
     os << ")[";
     for (unsigned t(0); t < info.num_texture_formats; ++t)
