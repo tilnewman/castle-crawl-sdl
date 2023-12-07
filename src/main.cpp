@@ -27,7 +27,8 @@ int main(int argc, char * argv[])
         config.media_path = std::filesystem::canonical({ args.at(1) });
     }
 
-    if (std::filesystem::exists(config.media_path))
+    if (std::filesystem::exists(config.media_path) &&
+        std::filesystem::is_directory(config.media_path))
     {
         castlecrawl::LoopCoordinator coordinator(config);
         coordinator.playGame();
