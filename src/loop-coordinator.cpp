@@ -28,6 +28,7 @@ namespace castlecrawl
         , m_random()
         , m_sfx(m_random)
         , m_music()
+        , m_anim(m_random)
         , m_fonts()
         , m_enemies()
         , m_framerate()
@@ -47,6 +48,7 @@ namespace castlecrawl
               m_random,
               m_sfx,
               m_music,
+              m_anim,
               m_fonts,
               m_enemies,
               m_framerate,
@@ -86,6 +88,9 @@ namespace castlecrawl
         m_sfx.setMediaPath((m_config.media_path / "sfx").string());
         m_sfx.loadAll();
 
+        m_anim.setMediaPath((m_config.media_path / "anim").string());
+        m_anim.loadAll(m_sdlManager);
+
         m_framerate.setup();
         m_fonts.setup(m_config);
         m_enemies.setup(m_context);
@@ -105,6 +110,7 @@ namespace castlecrawl
 
     void LoopCoordinator::teardown()
     {
+        m_anim.reset();
         m_sfx.stopAll();
         m_music.stopAll();
         m_framerate.teardown();

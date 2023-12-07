@@ -9,6 +9,7 @@ namespace util
     class Random;
     class SoundPlayer;
     class MusicPlayer;
+    class AnimationPlayer;
 } // namespace util
 
 namespace castlecrawl
@@ -43,6 +44,7 @@ namespace castlecrawl
             const util::Random & randomParam,
             util::SoundPlayer & sfxParam,
             util::MusicPlayer & musicParam,
+            util::AnimationPlayer & animParam,
             FontManager & fontManagerParam,
             Enemies & enemiesParam,
             FramerateText & framerateTextParam,
@@ -60,6 +62,7 @@ namespace castlecrawl
             , random(randomParam)
             , sfx(sfxParam)
             , music(musicParam)
+            , anim(animParam)
             , font(fontManagerParam)
             , enemy(enemiesParam)
             , framerate(framerateTextParam)
@@ -79,6 +82,7 @@ namespace castlecrawl
         const util::Random & random;
         util::SoundPlayer & sfx;
         util::MusicPlayer & music;
+        util::AnimationPlayer & anim;
         FontManager & font;
         Enemies & enemy;
         FramerateText & framerate;

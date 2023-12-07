@@ -3,6 +3,7 @@
 //
 // loop-coordinator.hpp
 //
+#include "animation-player.hpp"
 #include "context.hpp"
 #include "enemy.hpp"
 #include "font.hpp"
@@ -53,6 +54,7 @@ namespace castlecrawl
         util::Random m_random;
         util::SoundPlayer m_sfx;
         util::MusicPlayer m_music;
+        util::AnimationPlayer m_anim;
         FontManager m_fonts;
         Enemies m_enemies;
         FramerateText m_framerate;

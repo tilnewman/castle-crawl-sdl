@@ -5,6 +5,7 @@
 //
 #include "state-play.hpp"
 
+#include "animation-player.hpp"
 #include "check-macros.hpp"
 #include "context.hpp"
 #include "enemy.hpp"
@@ -12,6 +13,7 @@
 #include "framerate-text.hpp"
 #include "layout.hpp"
 #include "map-display.hpp"
+#include "map.hpp"
 #include "maps.hpp"
 #include "mouseover.hpp"
 #include "music-player.hpp"
@@ -121,6 +123,15 @@ namespace castlecrawl
             (event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_RIGHT))
         {
             handlePlayerMove(context, event.key.keysym.sym);
+
+            // TODO remove after testing
+            context.anim.play(
+                context.sdl,
+                "sparkle-burst",
+                util::makeRect(
+                    context.map.mapPosToScreenPos(context, context.player.position()),
+                    context.layout.cellSize()));
+
             return;
         }
     }
