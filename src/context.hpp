@@ -84,7 +84,6 @@ namespace castlecrawl
         FramerateText & framerate;
         TopPanel & top_panel;
         TurnKeeper & turn;
-        bool is_game_over;
     };
 
 } // namespace castlecrawl

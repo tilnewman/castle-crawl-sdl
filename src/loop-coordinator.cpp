@@ -118,7 +118,7 @@ namespace castlecrawl
     {
         Clock frameClock;
 
-        while (!m_context.is_game_over)
+        while (m_stateManager.current().which() != State::Quit)
         {
             handleEvents();
             update(frameClock.restart());
@@ -139,11 +139,11 @@ namespace castlecrawl
     {
         if (SDL_QUIT == event.type)
         {
-            m_context.is_game_over = true;
+            m_stateManager.change(m_context, State::Quit);
         }
         else if ((SDL_KEYUP == event.type) && (SDLK_ESCAPE == event.key.keysym.sym))
         {
-            m_context.is_game_over = true;
+            m_stateManager.change(m_context, State::Quit);
         }
         else
         {
