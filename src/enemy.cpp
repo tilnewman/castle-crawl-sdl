@@ -177,17 +177,25 @@ namespace castlecrawl
                 std::end(possibleMoveCells),
                 [&](const MapCell & A, const MapCell & B) {
                     return (
-                        distance(enemy.position, A.position) <
-                        distance(enemy.position, B.position));
+                        distance(context.player.position(), A.position) <
+                        distance(context.player.position(), B.position));
                 });
 
-            enemy.position = possibleMoveCells.front().position;
+            const int shortestDistance =
+                distance(possibleMoveCells.front().position, context.player.position());
+
+            possibleMoveCells.erase(
+                std::remove_if(
+                    std::begin(possibleMoveCells),
+                    std::end(possibleMoveCells),
+                    [&](const MapCell & cell) {
+                        return (
+                            distance(context.player.position(), cell.position) > shortestDistance);
+                    }),
+                std::end(possibleMoveCells));
         }
-        else
-        {
-            const MapCell cellToMoveInto = context.random.from(possibleMoveCells);
-            enemy.position = cellToMoveInto.position;
-        }
+
+        enemy.position = context.random.from(possibleMoveCells).position;
     }
 
     void Enemies::spawn(const Context & context, EnemyInstance & enemy)
