@@ -125,15 +125,6 @@ namespace castlecrawl
             (event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_RIGHT))
         {
             handlePlayerMove(context, event.key.keysym.sym);
-
-            // TODO remove after testing
-            context.anim.play(
-                context.sdl,
-                "sparkle-burst",
-                util::makeRect(
-                    context.map.mapPosToScreenPos(context, context.player.position()),
-                    context.layout.cellSize()));
-
             return;
         }
     }
