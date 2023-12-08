@@ -14,12 +14,10 @@ namespace castlecrawl
         TurnKeeper();
 
         bool isPlayerTurn() const { return m_isPlayerTurn; }
-
         void passTurn(const Context & context);
 
       private:
         bool m_isPlayerTurn;
-        float m_elapsedSec;
     };
 
 } // namespace castlecrawl

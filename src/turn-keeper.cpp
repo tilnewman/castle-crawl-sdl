@@ -12,7 +12,6 @@ namespace castlecrawl
 
     TurnKeeper::TurnKeeper()
         : m_isPlayerTurn(true)
-        , m_elapsedSec(0.0f)
     {}
 
     void TurnKeeper::passTurn(const Context & context)
