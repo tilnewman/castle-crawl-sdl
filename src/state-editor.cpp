@@ -35,6 +35,11 @@ namespace castlecrawl
         , m_titleTexturePtr(nullptr)
         , m_titleScreenPos{ 0, 0 }
         , m_fadeTextAlpha(0)
+        , m_isDragging(false)
+        , m_dragPosStart{ 0, 0 }
+        , m_dragPosStop{ 0, 0 }
+        , m_dragRect{ 0, 0, 0, 0 }
+        , m_dragSelectedEntrys()
     {}
 
     void StateEditor::onEnter(const Context & context)
@@ -79,7 +84,11 @@ namespace castlecrawl
     {
         context.map_display.draw(context);
         context.sdl.drawOutline({ 255, 255, 255, 64 }, context.layout.mapRect());
-        context.sdl.draw({ 0, 255, 255, 64 }, m_editRect);
+
+        if (m_dragSelectedEntrys.empty())
+        {
+            context.sdl.draw({ 0, 255, 255, 64 }, m_editRect);
+        }
 
         if (m_keyTexturePtr != nullptr)
         {
@@ -95,11 +104,38 @@ namespace castlecrawl
         {
             context.sdl.blit(m_titleTexturePtr, m_titleScreenPos.x, m_titleScreenPos.y);
         }
+
+        if (m_isDragging)
+        {
+            context.sdl.draw({ 255, 255, 255, 32 }, m_dragRect);
+        }
+
+        for (const MapEntry_t & entry : m_dragSelectedEntrys)
+        {
+            context.sdl.draw({ 0, 255, 255, 64 }, entry.rect);
+        }
     }
 
     void StateEditor::handleEvent(const Context & context, const SDL_Event & event)
     {
         if ((event.type == SDL_MOUSEBUTTONDOWN) && (event.button.button == SDL_BUTTON_LEFT))
+        {
+            const SDL_Point mousePos{ event.button.x, event.button.y };
+            m_dragPosStart = mousePos;
+            m_dragPosStop = mousePos;
+
+            updateDragRect();
+
+            const SDL_Rect mapRect = context.layout.mapRect();
+            m_isDragging = SDL_PointInRect(&mousePos, &mapRect);
+
+            updateDragSelectedMapCells(context);
+
+            context.sfx.play("tick-on-1");
+            return;
+        }
+
+        if ((event.type == SDL_MOUSEBUTTONUP) && (event.button.button == SDL_BUTTON_LEFT))
         {
             const SDL_Point mousePos{ event.button.x, event.button.y };
             const MapPos_t newMapPos = context.map.screenPosToMapPos(context, mousePos);
@@ -109,6 +145,33 @@ namespace castlecrawl
                 m_editPos = newMapPos;
                 placeEditCursor(context);
                 context.sfx.play("tick-off-1");
+            }
+
+            m_isDragging = false;
+
+            const SDL_Rect mapRect = context.layout.mapRect();
+            if (SDL_PointInRect(&mousePos, &mapRect))
+            {
+                updateDragRect();
+            }
+            else
+            {
+                m_dragRect = { 0, 0, 0, 0 };
+            }
+
+            return;
+        }
+
+        if (event.type == SDL_MOUSEMOTION)
+        {
+            if (m_isDragging)
+            {
+                const SDL_Point mousePos{ event.button.x, event.button.y };
+                m_dragPosStop = mousePos;
+
+                updateDragRect();
+
+                updateDragSelectedMapCells(context);
             }
 
             return;
@@ -146,8 +209,8 @@ namespace castlecrawl
             return;
         }
 
-        // all events are key released events
-        if (SDL_KEYUP != event.type)
+        // all events are key released events that only work if not dragging
+        if (m_isDragging || (SDL_KEYUP != event.type))
         {
             return;
         }
@@ -187,6 +250,7 @@ namespace castlecrawl
             {
                 --m_editPos.y;
                 placeEditCursor(context);
+                m_dragSelectedEntrys.clear();
                 context.sfx.play("tick-off-1");
             }
             else
@@ -200,6 +264,7 @@ namespace castlecrawl
             {
                 ++m_editPos.y;
                 placeEditCursor(context);
+                m_dragSelectedEntrys.clear();
                 context.sfx.play("tick-off-1");
             }
             else
@@ -213,6 +278,7 @@ namespace castlecrawl
             {
                 --m_editPos.x;
                 placeEditCursor(context);
+                m_dragSelectedEntrys.clear();
                 context.sfx.play("tick-off-1");
             }
             else
@@ -226,6 +292,7 @@ namespace castlecrawl
             {
                 ++m_editPos.x;
                 placeEditCursor(context);
+                m_dragSelectedEntrys.clear();
                 context.sfx.play("tick-off-1");
             }
             else
@@ -276,15 +343,13 @@ namespace castlecrawl
         m_editRect.y = pos.y;
     }
 
-    void StateEditor::setMapChar(const char ch)
+    void StateEditor::setMapChar(const MapPos_t & pos, const char ch)
     {
-        m_mapChars.at(static_cast<std::size_t>(m_editPos.y))
-            .at(static_cast<std::size_t>(m_editPos.x)) = ch;
+        m_mapChars.at(static_cast<std::size_t>(pos.y)).at(static_cast<std::size_t>(pos.x)) = ch;
     }
 
     void StateEditor::fadeText(const Context & context, const std::string & text)
     {
-
         util::destroyTexture(m_fadeTexturePtr);
 
         if (text.empty())
@@ -305,14 +370,26 @@ namespace castlecrawl
     void StateEditor::editMap(
         const Context & context, const bool isShift, const char upper, const char lower)
     {
+        const char mapCharToSet = ((isShift) ? upper : lower);
+
+        if (m_dragSelectedEntrys.empty())
+        {
+            setMapChar(m_editPos, mapCharToSet);
+        }
+        else
+        {
+            for (const MapEntry_t & entry : m_dragSelectedEntrys)
+            {
+                setMapChar(entry.pos, mapCharToSet);
+            }
+        }
+
         if (isShift)
         {
-            setMapChar(upper);
             fadeText(context, mapCharToName(upper));
         }
         else
         {
-            setMapChar(lower);
             fadeText(context, mapCharToName(lower));
         }
 
@@ -379,6 +456,42 @@ namespace castlecrawl
             default:  { return ""; }
         }
         // clang-format on
+    }
+
+    void StateEditor::updateDragRect()
+    {
+        m_dragRect.x = util::min(m_dragPosStart.x, m_dragPosStop.x);
+        m_dragRect.y = util::min(m_dragPosStart.y, m_dragPosStop.y);
+        m_dragRect.w = util::abs(m_dragPosStart.x - m_dragPosStop.x);
+        m_dragRect.h = util::abs(m_dragPosStart.y - m_dragPosStop.y);
+    }
+
+    void StateEditor::updateDragSelectedMapCells(const Context & context)
+    {
+        m_dragSelectedEntrys.clear();
+
+        const SDL_Rect mapRect = context.layout.mapRect();
+        const SDL_Point mapSize = context.layout.cellCount();
+
+        SDL_Point screenPos = util::position(mapRect);
+        for (int y(0); y < mapSize.y; ++y)
+        {
+            for (int x(0); x < mapSize.x; ++x)
+            {
+                const SDL_Rect screenRect = util::makeRect(screenPos, context.layout.cellSize());
+
+                if (SDL_HasIntersection(&screenRect, &m_dragRect))
+                {
+                    const MapEntry_t entry{ { x, y }, screenRect };
+                    m_dragSelectedEntrys.push_back(entry);
+                }
+
+                screenPos.x += context.layout.cellSize().x;
+            }
+
+            screenPos.x = mapRect.x;
+            screenPos.y += context.layout.cellSize().y;
+        }
     }
 
 } // namespace castlecrawl
