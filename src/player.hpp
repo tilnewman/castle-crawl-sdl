@@ -20,6 +20,7 @@ namespace castlecrawl
         void position(const Context & context, const MapPos_t & newPosition);
         void draw(const Context & context);
         void shake(const Context & context);
+        bool isPosNextTo(const MapPos_t pos) const;
 
       private:
         MapPos_t m_mapPos;

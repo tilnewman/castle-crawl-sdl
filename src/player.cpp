@@ -69,4 +69,21 @@ namespace castlecrawl
             static_cast<int>(static_cast<float>(context.layout.cellSize().x) * 0.1f), 75.0f);
     }
 
+    bool Player::isPosNextTo(const MapPos_t pos) const
+    {
+        if ((m_mapPos.x == pos.x) && ((m_mapPos.y == (pos.y + 1)) || (m_mapPos.y == (pos.y - 1))))
+        {
+            return true;
+        }
+        else if (
+            (m_mapPos.y == pos.y) && ((m_mapPos.x == (pos.x + 1)) || (m_mapPos.x == (pos.x - 1))))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 } // namespace castlecrawl

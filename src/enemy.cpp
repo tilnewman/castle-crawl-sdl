@@ -38,6 +38,7 @@ namespace castlecrawl
         , image(randomEnemyImage(random, e))
         , position(p)
         , timer_sec(turnTimeSec(random, e))
+        , walk_toward_ratio(walkToPlayerRatio(e))
     {}
 
     Enemies::Enemies()
@@ -51,13 +52,7 @@ namespace castlecrawl
             context.sdl.loadTexture((context.config.media_path / "image" / "enemies.png").string());
     }
 
-    void Enemies::teardown()
-    {
-        if (m_texturePtr != nullptr)
-        {
-            SDL_DestroyTexture(m_texturePtr);
-        }
-    }
+    void Enemies::teardown() { util::destroyTexture(m_texturePtr); }
 
     void Enemies::update(const Context & context, const float frameTimeSec)
     {
@@ -85,6 +80,11 @@ namespace castlecrawl
 
     void Enemies::draw(const Context & context) const
     {
+        if (m_texturePtr == nullptr)
+        {
+            return;
+        }
+
         for (const EnemyInstance & enemy : m_enemies)
         {
             const SDL_Rect srcRect = enemyImageRect(enemy.image);
@@ -143,7 +143,14 @@ namespace castlecrawl
         }
         else
         {
-            move(context, enemy);
+            if (context.player.isPosNextTo(enemy.position))
+            {
+                attack(context, enemy);
+            }
+            else
+            {
+                move(context, enemy);
+            }
         }
     }
 
@@ -159,10 +166,28 @@ namespace castlecrawl
             return;
         }
 
-        // TODO start with simple random move while testing
-        const MapCell cellToMoveInto = context.random.from(possibleMoveCells);
+        if (context.random.fromTo(0.0f, 1.0f) < enemy.walk_toward_ratio)
+        {
+            auto distance = [](const MapPos_t & A, const MapPos_t & B) {
+                return (util::abs(A.x - B.x) + util::abs(A.y - B.y));
+            };
 
-        enemy.position = cellToMoveInto.position;
+            std::sort(
+                std::begin(possibleMoveCells),
+                std::end(possibleMoveCells),
+                [&](const MapCell & A, const MapCell & B) {
+                    return (
+                        distance(enemy.position, A.position) <
+                        distance(enemy.position, B.position));
+                });
+
+            enemy.position = possibleMoveCells.front().position;
+        }
+        else
+        {
+            const MapCell cellToMoveInto = context.random.from(possibleMoveCells);
+            enemy.position = cellToMoveInto.position;
+        }
     }
 
     void Enemies::spawn(const Context & context, EnemyInstance & enemy)
@@ -183,6 +208,11 @@ namespace castlecrawl
             context.random, spawnType(enemy.enemy), cellToMoveInto.position);
 
         add(spawnedInstance);
+    }
+
+    void Enemies::attack(const Context &, EnemyInstance &)
+    {
+        // TODO
     }
 
     void Enemies::removeSpawnAndMoveObstacles(
