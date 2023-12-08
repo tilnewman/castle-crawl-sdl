@@ -29,8 +29,7 @@ namespace castlecrawl
     {
         m_elapsedTimeSec += frameTimeSec;
 
-        m_current =
-            static_cast<int>(std::sinf(m_elapsedTimeSec * m_speed) * static_cast<float>(m_range));
+        m_current = static_cast<int>(sin(m_elapsedTimeSec * m_speed) * static_cast<float>(m_range));
 
         return m_current;
     }
