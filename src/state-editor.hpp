@@ -46,9 +46,9 @@ namespace castlecrawl
         SDL_Point m_keyScreenPos;
         SDL_Texture * m_fadeTexturePtr;
         SDL_Point m_fadeScreenPos;
-        float m_fadeElapsedSec;
         SDL_Texture * m_titleTexturePtr;
         SDL_Point m_titleScreenPos;
+        Uint8 m_fadeTextAlpha;
     };
 
 } // namespace castlecrawl

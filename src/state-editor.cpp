@@ -32,9 +32,9 @@ namespace castlecrawl
         , m_keyScreenPos{ 0, 0 }
         , m_fadeTexturePtr(nullptr)
         , m_fadeScreenPos{ 0, 0 }
-        , m_fadeElapsedSec(0.0f)
         , m_titleTexturePtr(nullptr)
         , m_titleScreenPos{ 0, 0 }
+        , m_fadeTextAlpha(0)
     {}
 
     void StateEditor::onEnter(const Context & context)
@@ -62,12 +62,15 @@ namespace castlecrawl
         util::destroyTexture(m_titleTexturePtr);
     }
 
-    void StateEditor::update(const Context &, const float frameTimeSec)
+    void StateEditor::update(const Context &, const float)
     {
-        m_fadeElapsedSec += frameTimeSec;
-        if (m_fadeElapsedSec > 2.0f)
+        if (m_fadeTextAlpha > 0)
         {
-            m_fadeElapsedSec = 0.0f;
+            --m_fadeTextAlpha;
+            SDL_SetTextureAlphaMod(m_fadeTexturePtr, m_fadeTextAlpha);
+        }
+        else
+        {
             util::destroyTexture(m_fadeTexturePtr);
         }
     }
@@ -281,7 +284,6 @@ namespace castlecrawl
 
     void StateEditor::fadeText(const Context & context, const std::string & text)
     {
-        m_fadeElapsedSec = 0.0f;
 
         util::destroyTexture(m_fadeTexturePtr);
 
@@ -295,6 +297,9 @@ namespace castlecrawl
         const SDL_Point size = util::size(m_fadeTexturePtr);
         m_fadeScreenPos.x = ((context.layout.topRect().w / 2) - (size.x / 2));
         m_fadeScreenPos.y = (size.y / 2);
+
+        m_fadeTextAlpha = 255;
+        SDL_SetTextureAlphaMod(m_fadeTexturePtr, m_fadeTextAlpha);
     }
 
     void StateEditor::editMap(
@@ -358,19 +363,19 @@ namespace castlecrawl
             case 'c': { return "Chest"; }
             case 'k': { return "Coffin"; }
             case '0': { return "Snake"; }
-            case '1': { return "SnakeBag"; }
+            case '1': { return "Snake Bag"; }
             case '2': { return "Spider"; }
             case '3': { return "Spiderweb"; }
             case '4': { return "Goblin"; }
-            case '5': { return "GoblinBarrel"; }
+            case '5': { return "Goblin Barrel"; }
             case '6': { return "Bat"; }
-            case '7': { return "BatMask"; }
+            case '7': { return "Bat Mask"; }
             case '8': { return "Skeleton"; }
-            case '9': { return "SkeletonGrave"; }
+            case '9': { return "Skeleton Grave"; }
             case ':': { return "Demon"; }
-            case ';': { return "DemonDoor"; }
+            case ';': { return "Demon Door"; }
             case '[': { return "Dragon"; }
-            case ']': { return "DragonInferno"; }
+            case ']': { return "Dragon Inferno"; }
             default:  { return ""; }
         }
         // clang-format on
