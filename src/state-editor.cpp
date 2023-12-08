@@ -33,6 +33,8 @@ namespace castlecrawl
         , m_fadeTexturePtr(nullptr)
         , m_fadeScreenPos{ 0, 0 }
         , m_fadeElapsedSec(0.0f)
+        , m_titleTexturePtr(nullptr)
+        , m_titleScreenPos{ 0, 0 }
     {}
 
     void StateEditor::onEnter(const Context & context)
@@ -45,12 +47,19 @@ namespace castlecrawl
 
         m_editRect =
             util::makeRect(util::position(context.layout.mapRect()), context.layout.cellSize());
+
+        m_titleTexturePtr = context.font.makeTexture(
+            context, FontSize::Medium, "Press and hold 'h' for help.", { 127, 127, 127, 255 });
+
+        m_titleScreenPos =
+            (util::center(context.layout.topRect()) - (util::size(m_titleTexturePtr) / 2));
     }
 
     void StateEditor::onExit(const Context &)
     {
         util::destroyTexture(m_keyTexturePtr);
         util::destroyTexture(m_fadeTexturePtr);
+        util::destroyTexture(m_titleTexturePtr);
     }
 
     void StateEditor::update(const Context &, const float frameTimeSec)
@@ -77,6 +86,11 @@ namespace castlecrawl
         if (m_fadeTexturePtr != nullptr)
         {
             context.sdl.blit(m_fadeTexturePtr, m_fadeScreenPos.x, m_fadeScreenPos.y);
+        }
+
+        if (m_titleTexturePtr != nullptr)
+        {
+            context.sdl.blit(m_titleTexturePtr, m_titleScreenPos.x, m_titleScreenPos.y);
         }
     }
 
