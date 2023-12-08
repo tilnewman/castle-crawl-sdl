@@ -66,7 +66,6 @@ namespace castlecrawl
             enemy.timer_sec -= frameTimeSec;
             if (enemy.timer_sec < 0.0f)
             {
-                enemy.timer_sec = turnTimeSec(context.random, enemy.enemy);
                 act(context, enemy);
             }
         }
@@ -136,6 +135,8 @@ namespace castlecrawl
 
     void Enemies::act(const Context & context, EnemyInstance & enemy)
     {
+        enemy.timer_sec = turnTimeSec(context.random, enemy.enemy);
+
         if (enemy.isSummoner())
         {
             spawn(context, enemy);
