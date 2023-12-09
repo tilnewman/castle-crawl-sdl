@@ -261,6 +261,7 @@ namespace castlecrawl
         return texturePtr;
     }
 
+    /*
     SDL_Texture *
         SDLManager::loadAndMaskTexture(const std::string & path, const SDL_Color & maskColor) const
     {
@@ -311,6 +312,7 @@ namespace castlecrawl
         return texturePtr;
     }
 
+
     const SDL_Color
         SDLManager::getPixel(SDL_Surface * const surfacePtr, const int x, const int y) const
     {
@@ -347,6 +349,7 @@ namespace castlecrawl
         SDL_GetRGBA(data, surfacePtr->format, &rgb.r, &rgb.g, &rgb.b, &rgb.a);
         return rgb;
     }
+    */
 
     void SDLManager::setPixel(
         SDL_Surface * surfacePtr, const int x, const int y, const unsigned color) const

@@ -56,10 +56,10 @@ namespace castlecrawl
         SDL_Texture *
             loadAndSmoothResizeTexture(const std::string & path, const SDL_Point & size) const;
 
-        SDL_Texture *
-            loadAndMaskTexture(const std::string & path, const SDL_Color & maskColor) const;
+        // SDL_Texture *
+        //    loadAndMaskTexture(const std::string & path, const SDL_Color & maskColor) const;
 
-        const SDL_Color getPixel(SDL_Surface * const surfacePtr, const int x, const int y) const;
+        // const SDL_Color getPixel(SDL_Surface * const surfacePtr, const int x, const int y) const;
 
         // assumes the surface is RGBA8888
         void setPixel(
