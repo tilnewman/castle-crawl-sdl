@@ -186,7 +186,7 @@ namespace castlecrawl
 
             const std::string keyText(
                 "Esc-Quit\nCNTRL-s-Save\nSpace-Bare Floor\nPeriod-Erase\n"
-                "1-Dirt Floor\n2-Stone Floor\n3-Wood Floor\n"
+                "1-Dirt Floor\n2-Stone Floor\n3-Wood Floor\na-Bag\n"
                 "r-Rock\nl-Lava\nw-Water\ng-Slime\nc-Chest\nk-Coffin\n"
                 "S-Stairs Up\ns-Stair Down\nD-Door Locked\nd-Door Unlocked\n"
                 "0-Snake\n1-SnakeBag\n2-Spider\n3-Spiderweb\n4-Goblin\n5-GoblinBarrel\n"
@@ -306,6 +306,7 @@ namespace castlecrawl
         else if (event.key.keysym.sym == SDLK_d)            { editMap(context, isShift, 'D', 'd'); }
         else if (event.key.keysym.sym == SDLK_s)            { editMap(context, isShift, 'S', 's'); }
         else if (event.key.keysym.sym == SDLK_r)            { editMap(context, isShift, 'r', 'r'); }
+        else if (event.key.keysym.sym == SDLK_a)            { editMap(context, isShift, 'a', 'a'); }
         else if (event.key.keysym.sym == SDLK_l)            { editMap(context, isShift, 'l', 'l'); }
         else if (event.key.keysym.sym == SDLK_w)            { editMap(context, isShift, 'w', 'w'); }
         else if (event.key.keysym.sym == SDLK_g)            { editMap(context, isShift, 'g', 'g'); }
