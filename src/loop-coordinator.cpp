@@ -31,6 +31,7 @@ namespace castlecrawl
         , m_anim(m_random)
         , m_fonts()
         , m_enemies()
+        , m_mapObjects()
         , m_framerate()
         , m_topPanel()
         , m_stateManager()
@@ -51,6 +52,7 @@ namespace castlecrawl
               m_anim,
               m_fonts,
               m_enemies,
+              m_mapObjects,
               m_framerate,
               m_topPanel,
               m_turnKeeper)

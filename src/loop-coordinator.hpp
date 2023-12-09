@@ -11,6 +11,7 @@
 #include "game-config.hpp"
 #include "layout.hpp"
 #include "map-display.hpp"
+#include "map-objects.hpp"
 #include "map.hpp"
 #include "maps.hpp"
 #include "music-player.hpp"
@@ -57,6 +58,7 @@ namespace castlecrawl
         util::AnimationPlayer m_anim;
         FontManager m_fonts;
         Enemies m_enemies;
+        MapObjects m_mapObjects;
         FramerateText m_framerate;
         TopPanel m_topPanel;
         StateManager m_stateManager;

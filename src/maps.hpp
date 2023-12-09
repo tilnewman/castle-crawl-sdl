@@ -27,6 +27,9 @@ namespace castlecrawl
         void loadEnemies(const Context & context, Map & map) const;
         void unloadEnemies(const Context & context) const;
 
+        void loadObjects(const Context & context, Map & map) const;
+        void unloadObjects(const Context & context) const;
+
       private:
         std::vector<Map> m_maps;
     };

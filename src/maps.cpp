@@ -10,6 +10,7 @@
 #include "enemy.hpp"
 #include "layout.hpp"
 #include "map-display.hpp"
+#include "map-objects.hpp"
 #include "player.hpp"
 
 namespace castlecrawl
@@ -35,8 +36,10 @@ namespace castlecrawl
             (foundIter != std::end(m_maps)),
             "Tried to change to an invalid map named \"" << toString(mapName) << "\"");
 
+        unloadObjects(context);
         unloadEnemies(context);
         context.map = *foundIter;
+        loadObjects(context, context.map);
         loadEnemies(context, context.map);
         context.layout.setupNewMap(context.map.size());
         context.map_display.load(context);
@@ -433,5 +436,42 @@ namespace castlecrawl
     }
 
     void Maps::unloadEnemies(const Context & context) const { context.enemy.removeAll(); }
+
+    void Maps::loadObjects(const Context & context, Map & map) const
+    {
+        const SDL_Point size = map.size();
+
+        for (int y(0); y < size.y; ++y)
+        {
+            for (int x(0); x < size.x; ++x)
+            {
+                const MapPos_t pos{ x, y };
+                const MapCell & cell = map.cell(pos);
+
+                if (cell.object_char == 'a')
+                {
+                    context.map_object.add({ MapObject::Bag, cell.position });
+                    map.setObjectChar(pos, ' ');
+                }
+                else if (cell.object_char == 'b')
+                {
+                    context.map_object.add({ MapObject::Barrel, cell.position });
+                    map.setObjectChar(pos, ' ');
+                }
+                else if (cell.object_char == 'k')
+                {
+                    context.map_object.add({ MapObject::Coffin, cell.position });
+                    map.setObjectChar(pos, ' ');
+                }
+                else if (cell.object_char == 'c')
+                {
+                    context.map_object.add({ MapObject::Chest, cell.position });
+                    map.setObjectChar(pos, ' ');
+                }
+            }
+        }
+    }
+
+    void Maps::unloadObjects(const Context & context) const { context.map_object.removeAll(); }
 
 } // namespace castlecrawl

@@ -25,6 +25,7 @@ namespace castlecrawl
     class Player;
     class FontManager;
     class Enemies;
+    class MapObjects;
     class FramerateText;
     class TopPanel;
     class TurnKeeper;
@@ -47,6 +48,7 @@ namespace castlecrawl
             util::AnimationPlayer & animParam,
             FontManager & fontManagerParam,
             Enemies & enemiesParam,
+            MapObjects & mapObjectsParam,
             FramerateText & framerateTextParam,
             TopPanel & topPanelParam,
             TurnKeeper & turnKeeperParam)
@@ -65,6 +67,7 @@ namespace castlecrawl
             , anim(animParam)
             , font(fontManagerParam)
             , enemy(enemiesParam)
+            , map_object(mapObjectsParam)
             , framerate(framerateTextParam)
             , top_panel(topPanelParam)
             , turn(turnKeeperParam)
@@ -85,6 +88,7 @@ namespace castlecrawl
         util::AnimationPlayer & anim;
         FontManager & font;
         Enemies & enemy;
+        MapObjects & map_object;
         FramerateText & framerate;
         TopPanel & top_panel;
         TurnKeeper & turn;

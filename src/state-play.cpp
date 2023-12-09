@@ -13,6 +13,7 @@
 #include "framerate-text.hpp"
 #include "layout.hpp"
 #include "map-display.hpp"
+#include "map-objects.hpp"
 #include "map.hpp"
 #include "maps.hpp"
 #include "mouseover.hpp"
@@ -81,6 +82,7 @@ namespace castlecrawl
     void StatePlay::draw(const Context & context) const
     {
         context.map_display.draw(context);
+        context.map_object.draw(context);
         context.enemy.draw(context);
 
         if (!m_fader.isFading())
@@ -134,10 +136,11 @@ namespace castlecrawl
         const MapPos_t mapPosBefore = context.player.position();
         const MapPos_t mapPosAttempted = moveIfDir(mapPosBefore, key);
         const bool isEnemyInTheWay = context.enemy.isAnyAtMapPos(mapPosAttempted);
+        const bool isObjectInTheWay = context.map_object.isAnyAtMapPos(mapPosAttempted);
         const char mapCharAttempted = context.map.cell(mapPosAttempted).object_char;
 
         const MapPos_t mapPosAfter = [&]() {
-            if (isEnemyInTheWay)
+            if (isEnemyInTheWay || isObjectInTheWay)
             {
                 return mapPosBefore;
             }
