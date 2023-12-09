@@ -120,87 +120,25 @@ namespace castlecrawl
     {
         if ((event.type == SDL_MOUSEBUTTONDOWN) && (event.button.button == SDL_BUTTON_LEFT))
         {
-            const SDL_Point mousePos{ event.button.x, event.button.y };
-            m_dragPosStart = mousePos;
-            m_dragPosStop = mousePos;
-
-            updateDragRect();
-
-            const SDL_Rect mapRect = context.layout.mapRect();
-            m_isDragging = SDL_PointInRect(&mousePos, &mapRect);
-
-            updateDragSelectedMapCells(context);
-
-            context.sfx.play("tick-on-1");
+            startDragging(context, { event.button.x, event.button.y });
             return;
         }
 
         if ((event.type == SDL_MOUSEBUTTONUP) && (event.button.button == SDL_BUTTON_LEFT))
         {
-            const SDL_Point mousePos{ event.button.x, event.button.y };
-            const MapPos_t newMapPos = context.map.screenPosToMapPos(context, mousePos);
-
-            if ((newMapPos.x >= 0) && (newMapPos.y >= 0))
-            {
-                m_editPos = newMapPos;
-                placeEditCursor(context);
-                context.sfx.play("tick-off-1");
-            }
-
-            m_isDragging = false;
-
-            const SDL_Rect mapRect = context.layout.mapRect();
-            if (SDL_PointInRect(&mousePos, &mapRect))
-            {
-                updateDragRect();
-            }
-            else
-            {
-                m_dragRect = { 0, 0, 0, 0 };
-            }
-
+            stopDragging(context, { event.button.x, event.button.y });
             return;
         }
 
-        if (event.type == SDL_MOUSEMOTION)
+        if (m_isDragging && (event.type == SDL_MOUSEMOTION))
         {
-            if (m_isDragging)
-            {
-                const SDL_Point mousePos{ event.button.x, event.button.y };
-                m_dragPosStop = mousePos;
-
-                updateDragRect();
-
-                updateDragSelectedMapCells(context);
-            }
-
+            updateDragging(context, { event.button.x, event.button.y });
             return;
         }
 
         if ((SDL_KEYDOWN == event.type) && (SDLK_h == event.key.keysym.sym))
         {
-            if (m_keyTexturePtr != nullptr)
-            {
-                return;
-            }
-
-            const std::string keyText(
-                "Esc-Quit\nCNTRL-s-Save\nSpace-Bare Floor\nPeriod-Erase\n"
-                "1-Dirt Floor\n2-Stone Floor\n3-Wood Floor\na-Bag\n"
-                "r-Rock\nl-Lava\nw-Water\ng-Slime\nc-Chest\nk-Coffin\n"
-                "S-Stairs Up\ns-Stair Down\nD-Door Locked\nd-Door Unlocked\n"
-                "0-Snake\n1-SnakeBag\n2-Spider\n3-Spiderweb\n4-Goblin\n5-GoblinBarrel\n"
-                "6-Bat\n7-BatMask\n8-Skeleton\n9-SkeletonGrave\n:-Demon\n;-DemonDoor\n"
-                "[-Dragon\n]-DragonInferno");
-
-            util::destroyTexture(m_keyTexturePtr);
-
-            m_keyTexturePtr = context.font.makeTexture(context, FontSize::Small, keyText);
-
-            const SDL_Point size = util::size(m_keyTexturePtr);
-            m_keyScreenPos.x = ((context.layout.topRect().w / 2) - (size.x / 2));
-            m_keyScreenPos.y = (context.layout.topRect().h + 100);
-
+            setupKeyText(context);
             return;
         }
         else if ((SDL_KEYUP == event.type) && (SDLK_h == event.key.keysym.sym))
@@ -327,6 +265,77 @@ namespace castlecrawl
         else if (event.key.keysym.sym == SDLK_LEFTBRACKET)  { editMap(context, isShift, '[', '['); }
         else if (event.key.keysym.sym == SDLK_RIGHTBRACKET) { editMap(context, isShift, ']', ']'); }
         // clang-format on
+    }
+
+    void StateEditor::startDragging(const Context & context, const SDL_Point & mousePos)
+    {
+        m_dragPosStart = mousePos;
+        m_dragPosStop = mousePos;
+
+        updateDragRect();
+
+        const SDL_Rect mapRect = context.layout.mapRect();
+        m_isDragging = SDL_PointInRect(&mousePos, &mapRect);
+
+        updateDragSelectedMapCells(context);
+
+        context.sfx.play("tick-on-1");
+    }
+
+    void StateEditor::stopDragging(const Context & context, const SDL_Point & mousePos)
+    {
+        const MapPos_t newMapPos = context.map.screenPosToMapPos(context, mousePos);
+
+        if ((newMapPos.x >= 0) && (newMapPos.y >= 0))
+        {
+            m_editPos = newMapPos;
+            placeEditCursor(context);
+            context.sfx.play("tick-off-1");
+        }
+
+        m_isDragging = false;
+
+        const SDL_Rect mapRect = context.layout.mapRect();
+        if (SDL_PointInRect(&mousePos, &mapRect))
+        {
+            updateDragRect();
+        }
+        else
+        {
+            m_dragRect = { 0, 0, 0, 0 };
+        }
+    }
+
+    void StateEditor::updateDragging(const Context & context, const SDL_Point & mousePos)
+    {
+        m_dragPosStop = mousePos;
+        updateDragRect();
+        updateDragSelectedMapCells(context);
+    }
+
+    void StateEditor::setupKeyText(const Context & context)
+    {
+        if (m_keyTexturePtr != nullptr)
+        {
+            return;
+        }
+
+        const std::string keyText(
+            "Esc-Quit\nCNTRL-s-Save\nSpace-Bare Floor\nPeriod-Erase\n"
+            "1-Dirt Floor\n2-Stone Floor\n3-Wood Floor\na-Bag\n"
+            "r-Rock\nl-Lava\nw-Water\ng-Slime\nc-Chest\nk-Coffin\n"
+            "S-Stairs Up\ns-Stair Down\nD-Door Locked\nd-Door Unlocked\n"
+            "0-Snake\n1-SnakeBag\n2-Spider\n3-Spiderweb\n4-Goblin\n5-GoblinBarrel\n"
+            "6-Bat\n7-BatMask\n8-Skeleton\n9-SkeletonGrave\n:-Demon\n;-DemonDoor\n"
+            "[-Dragon\n]-DragonInferno");
+
+        util::destroyTexture(m_keyTexturePtr);
+
+        m_keyTexturePtr = context.font.makeTexture(context, FontSize::Small, keyText);
+
+        const SDL_Point size = util::size(m_keyTexturePtr);
+        m_keyScreenPos.x = ((context.layout.topRect().w / 2) - (size.x / 2));
+        m_keyScreenPos.y = (context.layout.topRect().h + 100);
     }
 
     void StateEditor::resetMap(const Context & context)

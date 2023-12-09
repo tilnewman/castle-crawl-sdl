@@ -32,6 +32,10 @@ namespace castlecrawl
         virtual void handleEvent(const Context & context, const SDL_Event & event) final;
 
       private:
+        void startDragging(const Context & context, const SDL_Point & mousePos);
+        void stopDragging(const Context & context, const SDL_Point & mousePos);
+        void updateDragging(const Context & context, const SDL_Point & mousePos);
+        void setupKeyText(const Context & context);
         void resetMap(const Context & context);
         void placeEditCursor(const Context & context);
         void setMapChar(const MapPos_t & pos, const char ch);
