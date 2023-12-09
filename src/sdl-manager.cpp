@@ -30,12 +30,6 @@ namespace castlecrawl
         const int initResult = SDL_Init(flags.sdl_init);
         M_CHECK((initResult == 0), "SDL_Init() failed: " << SDL_GetError());
 
-        // const int sdlImageInitFlagsActual = IMG_Init(flags.sdl_image_init);
-        //
-        // M_CHECK(
-        //    ((flags.sdl_image_init & sdlImageInitFlagsActual) == flags.sdl_image_init),
-        //    "IMG_Init() failed: " << IMG_GetError());
-
         m_windowPtr = SDL_CreateWindow(
             title.c_str(),
             SDL_WINDOWPOS_UNDEFINED,
@@ -133,32 +127,6 @@ namespace castlecrawl
 
     SDL_Texture * SDLManager::loadTexture(const std::string & path) const
     {
-        //
-        // using SDL_Image
-        //
-        // SDL_Texture * const texturePtr = IMG_LoadTexture(m_rendererPtr, path.c_str());
-        // M_CHECK((texturePtr != nullptr), "IMG_LoadTexture() failed: " << IMG_GetError());
-        // return texturePtr;
-
-        //
-        // using only SDL
-        //
-        // SDL_Surface * const surfacePtr = SDL_LoadBMP(path.c_str());
-        // M_CHECK((surfacePtr != nullptr), "SDL_LoadBMP(" << path << ") failed: " <<
-        // SDL_GetError());
-        //
-        // SDL_Texture * const texturePtr = SDL_CreateTextureFromSurface(m_rendererPtr, surfacePtr);
-        //
-        // M_CHECK(
-        //    (texturePtr != nullptr), "SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
-        //
-        // util::freeSurface(surfacePtr);
-        //
-        // return texturePtr;
-
-        //
-        // using both SFML and SDL
-        //
         sf::Image sfmlImage;
         const bool sfmlLoadResult = sfmlImage.loadFromFile(path);
 

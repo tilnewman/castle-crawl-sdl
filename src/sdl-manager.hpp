@@ -22,7 +22,6 @@ namespace castlecrawl
     {
         unsigned sdl_init = SDL_INIT_EVERYTHING;
         unsigned renderer = SDL_RENDERER_ACCELERATED;
-        // unsigned sdl_image_init = (IMG_INIT_JPG | IMG_INIT_PNG);
         unsigned window = SDL_WINDOW_FULLSCREEN;
     };
 
