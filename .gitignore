@@ -40,6 +40,7 @@
 **/CPTCMakeBuild
 **/Blast4/media
 *.DS_Store
+Thumbs.db
 *.oa
 *.ncb
 *.sln
