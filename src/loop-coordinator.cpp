@@ -110,13 +110,15 @@ namespace castlecrawl
 
     void LoopCoordinator::teardown()
     {
-        m_anim.reset();
         m_sfx.stopAll();
         m_music.stopAll();
+
+        m_anim.reset();
         m_framerate.teardown();
         m_tileImages.teardown();
         m_enemies.teardown();
         m_topPanel.teardown();
+
         m_sdlManager.teardown();
     }
 
