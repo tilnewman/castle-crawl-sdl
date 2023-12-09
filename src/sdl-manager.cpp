@@ -237,7 +237,12 @@ namespace castlecrawl
         {
             for (int x(0); x < newSize.x; ++x)
             {
-                setPixel(surfacePtr, x, y, sfmlImage.getPixel(x, y).toInteger());
+                setPixel(
+                    surfacePtr,
+                    x,
+                    y,
+                    sfmlImage.getPixel(static_cast<unsigned>(x), static_cast<unsigned>(y))
+                        .toInteger());
             }
         }
 
