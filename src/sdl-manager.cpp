@@ -160,7 +160,10 @@ namespace castlecrawl
         // using both SFML and SDL
         //
         sf::Image sfmlImage;
-        sfmlImage.loadFromFile(path);
+        const bool sfmlLoadResult = sfmlImage.loadFromFile(path);
+
+        M_CHECK(
+            sfmlLoadResult, "While loadTexture(" << path << ") sf::Image::loadFromFile() failed!");
 
         const sf::Vector2i size{ sfmlImage.getSize() };
 
@@ -199,6 +202,86 @@ namespace castlecrawl
             (texturePtr != nullptr),
             "While loadTexture(" << path << ", size=" << size.x << 'x' << size.y
                                  << ") SDL_CreateTextureFromSurface() failed: " << SDL_GetError());
+
+        util::freeSurface(surfacePtr);
+
+        return texturePtr;
+    }
+
+    SDL_Texture * SDLManager::loadAndSmoothResizeTexture(
+        const std::string & path, const SDL_Point & newSize) const
+    {
+        sf::Texture sfmlTexture;
+        const bool sfmlLoadResult = sfmlTexture.loadFromFile(path);
+
+        M_CHECK(
+            sfmlLoadResult,
+            "While loadAndSmoothResizeTexture(" << path << ") sf::Texture::loadFromFile() failed!");
+
+        sfmlTexture.setSmooth(true);
+
+        sf::Sprite sprite(sfmlTexture);
+
+        util::fitAndCenterInside(
+            sprite,
+            sf::FloatRect{ { 0.0f, 0.0f },
+                           { static_cast<float>(newSize.x), static_cast<float>(newSize.y) } });
+
+        sf::RenderTexture renderTexture;
+
+        const bool renderTextureCreateResult = renderTexture.create(
+            static_cast<unsigned>(newSize.x), static_cast<unsigned>(newSize.y));
+
+        M_CHECK(
+            renderTextureCreateResult,
+            "While loadAndSmoothResizeTexture(" << path << ") sf::RenderTexture::create("
+                                                << newSize.x << 'x' << newSize.y << ") failed!");
+
+        renderTexture.clear(sf::Color::Transparent);
+        renderTexture.draw(sprite);
+        renderTexture.display();
+
+        const sf::Image sfmlImage = renderTexture.getTexture().copyToImage();
+
+        SDL_Surface * surfacePtr = SDL_CreateRGBSurfaceWithFormat(
+            0,
+            static_cast<int>(newSize.x),
+            static_cast<int>(newSize.y),
+            32,
+            SDL_PIXELFORMAT_RGBA8888);
+
+        M_CHECK(
+            (surfacePtr != nullptr),
+            "While loadAndSmoothResizeTexture(\""
+                << path << "\") SDL_CreateRGBSurfaceWithFormat(" << newSize.x << 'x' << newSize.y
+                << ", 32bit, SDL_PIXELFORMAT_RGBA8888) failed: " << SDL_GetError());
+
+        const int setBlendModeResult = SDL_SetSurfaceBlendMode(surfacePtr, SDL_BLENDMODE_BLEND);
+
+        M_CHECK(
+            (setBlendModeResult == 0),
+            "While loadAndSmoothResizeTexture(\""
+                << path << "\") SDL_SetSurfaceBlendMode() failed: " << SDL_GetError());
+
+        SDL_LockSurface(surfacePtr);
+
+        for (int y(0); y < newSize.y; ++y)
+        {
+            for (int x(0); x < newSize.x; ++x)
+            {
+                setPixel(surfacePtr, x, y, sfmlImage.getPixel(x, y).toInteger());
+            }
+        }
+
+        SDL_UnlockSurface(surfacePtr);
+
+        SDL_Texture * const texturePtr = SDL_CreateTextureFromSurface(m_rendererPtr, surfacePtr);
+
+        M_CHECK(
+            (texturePtr != nullptr),
+            "While loadAndSmoothResizeTexture(\"" << path << "\") SDL_CreateTextureFromSurface("
+                                                  << newSize.x << 'x' << newSize.y
+                                                  << ") failed: " << SDL_GetError());
 
         util::freeSurface(surfacePtr);
 

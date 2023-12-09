@@ -33,26 +33,28 @@ namespace castlecrawl
     {
         const SDL_Rect screenRect = context.layout.screenRect();
 
-        m_castleTexturePtr =
-            context.sdl.loadTexture((context.config.media_path / "image" / "splash.png").string());
+        const int castleDimm = static_cast<int>(static_cast<float>(screenRect.w) * 0.3f);
+
+        m_castleTexturePtr = context.sdl.loadAndSmoothResizeTexture(
+            (context.config.media_path / "image" / "splash.png").string(),
+            { castleDimm, castleDimm });
 
         m_castleSrcRect = util::makeRect({ 0, 0 }, util::size(m_castleTexturePtr));
         m_castleDestRect = m_castleSrcRect;
-
-        util::fit(m_castleDestRect, static_cast<int>(static_cast<float>(screenRect.w) * 0.3f));
 
         m_castleDestRect.x = ((screenRect.w / 2) - (m_castleDestRect.w / 2));
         m_castleDestRect.y = ((screenRect.h / 2) - (m_castleDestRect.h / 2));
 
         //
 
-        m_lightningTexturePtr = context.sdl.loadTexture(
-            (context.config.media_path / "image" / "lightning.png").string());
+        const int lightningDimm = static_cast<int>(static_cast<float>(screenRect.w) * 0.125f);
+
+        m_lightningTexturePtr = context.sdl.loadAndSmoothResizeTexture(
+            (context.config.media_path / "image" / "lightning.png").string(),
+            { lightningDimm, lightningDimm });
 
         m_lightningSrcRect = util::makeRect({ 0, 0 }, util::size(m_lightningTexturePtr));
         m_lightningDestRect = m_lightningSrcRect;
-
-        util::fit(m_lightningDestRect, static_cast<int>(static_cast<float>(screenRect.w) * 0.125f));
 
         m_lightningDestRect.x = ((screenRect.w / 2) - (m_lightningDestRect.w / 2));
         m_lightningDestRect.y = ((screenRect.h / 2) - (m_lightningDestRect.h / 2));

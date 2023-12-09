@@ -21,17 +21,14 @@ namespace castlecrawl
 
     void TopPanel::setup(const Context & context)
     {
-        m_titleTexturePtr =
-            context.sdl.loadTexture((context.config.media_path / "image" / "title.png").string());
+        const SDL_Point titleImageSize{ static_cast<int>(
+                                            static_cast<float>(context.layout.topRect().w) * 0.4f),
+                                        context.layout.topRect().h };
+
+        m_titleTexturePtr = context.sdl.loadAndSmoothResizeTexture(
+            (context.config.media_path / "image" / "title.png").string(), titleImageSize);
 
         SDL_QueryTexture(m_titleTexturePtr, nullptr, nullptr, &m_titleSrcRect.w, &m_titleSrcRect.h);
-
-        m_titleDestRect = context.layout.topRect();
-
-        util::fit(
-            m_titleDestRect,
-            static_cast<int>(static_cast<float>(context.layout.topRect().w) * 0.4f),
-            static_cast<int>(context.layout.topRect().h));
 
         m_titleDestRect.y = 0;
 
@@ -39,17 +36,14 @@ namespace castlecrawl
             static_cast<int>((context.layout.screenRect().w * 0.5f) - (m_titleDestRect.w * 0.5f));
     }
 
-    void TopPanel::teardown()
-    {
-        if (m_titleTexturePtr != nullptr)
-        {
-            SDL_DestroyTexture(m_titleTexturePtr);
-        }
-    }
+    void TopPanel::teardown() { util::destroyTexture(m_titleTexturePtr); }
 
     void TopPanel::draw(const Context & context) const
     {
-        context.sdl.blit(m_titleTexturePtr, m_titleSrcRect, m_titleDestRect);
+        if (m_titleTexturePtr != nullptr)
+        {
+            context.sdl.blit(m_titleTexturePtr, m_titleSrcRect, m_titleDestRect);
+        }
     }
 
 } // namespace castlecrawl
