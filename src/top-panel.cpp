@@ -30,6 +30,8 @@ namespace castlecrawl
 
         SDL_QueryTexture(m_titleTexturePtr, nullptr, nullptr, &m_titleSrcRect.w, &m_titleSrcRect.h);
 
+        m_titleDestRect = m_titleSrcRect;
+
         m_titleDestRect.y = 0;
 
         m_titleDestRect.x =
