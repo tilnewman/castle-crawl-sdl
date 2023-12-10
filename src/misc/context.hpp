@@ -29,6 +29,7 @@ namespace castlecrawl
     class FramerateText;
     class TopPanel;
     class TurnKeeper;
+    class Player;
 
     struct Context
     {
@@ -51,7 +52,8 @@ namespace castlecrawl
             MapObjects & mapObjectsParam,
             FramerateText & framerateTextParam,
             TopPanel & topPanelParam,
-            TurnKeeper & turnKeeperParam)
+            TurnKeeper & turnKeeperParam,
+            Player & playerParam)
             : sdl(sdlManagerParam)
             , config(configParam)
             , tile_image(tileImagesParam)
@@ -71,6 +73,7 @@ namespace castlecrawl
             , framerate(framerateTextParam)
             , top_panel(topPanelParam)
             , turn(turnKeeperParam)
+            , player(playerParam)
         {}
 
         SDLManager & sdl;
@@ -92,6 +95,7 @@ namespace castlecrawl
         FramerateText & framerate;
         TopPanel & top_panel;
         TurnKeeper & turn;
+        Player & player;
     };
 
 } // namespace castlecrawl

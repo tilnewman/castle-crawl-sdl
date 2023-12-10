@@ -22,6 +22,7 @@
 #include "misc/random.hpp"
 #include "misc/sound-player.hpp"
 #include "misc/turn-keeper.hpp"
+#include "player/player.hpp"
 #include "state/state-manager.hpp"
 
 namespace castlecrawl
@@ -63,6 +64,7 @@ namespace castlecrawl
         TopPanel m_topPanel;
         StateManager m_stateManager;
         TurnKeeper m_turnKeeper;
+        Player m_player;
 
         Context m_context;
     };

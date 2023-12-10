@@ -5,10 +5,8 @@
 //
 #include "misc/loop-coordinator.hpp"
 
-#include "display/tile-image-enum.hpp"
 #include "misc/check-macros.hpp"
 #include "misc/clock.hpp"
-#include "misc/sdl-util.hpp"
 
 #include <exception>
 #include <iostream>
@@ -36,6 +34,7 @@ namespace castlecrawl
         , m_topPanel()
         , m_stateManager()
         , m_turnKeeper()
+        , m_player()
         , m_context(
               m_sdlManager,
               m_config,
@@ -55,7 +54,8 @@ namespace castlecrawl
               m_mapObjects,
               m_framerate,
               m_topPanel,
-              m_turnKeeper)
+              m_turnKeeper,
+              m_player)
     {}
 
     void LoopCoordinator::playGame()

@@ -6,7 +6,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 
 #list of library names (also the directory name)
-set(library_names display map misc state)
+set(library_names display map misc player state)
 
 
 #list of directories with executables
