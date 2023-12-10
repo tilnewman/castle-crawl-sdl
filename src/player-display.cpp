@@ -3,7 +3,7 @@
 //
 // player.cpp
 //
-#include "player.hpp"
+#include "player-display.hpp"
 
 #include "check-macros.hpp"
 #include "context.hpp"

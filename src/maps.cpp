@@ -11,7 +11,7 @@
 #include "layout.hpp"
 #include "map-display.hpp"
 #include "map-objects.hpp"
-#include "player.hpp"
+#include "player-display.hpp"
 
 namespace castlecrawl
 {

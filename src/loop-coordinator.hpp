@@ -15,7 +15,7 @@
 #include "map.hpp"
 #include "maps.hpp"
 #include "music-player.hpp"
-#include "player.hpp"
+#include "player-display.hpp"
 #include "random.hpp"
 #include "sdl-manager.hpp"
 #include "sound-player.hpp"

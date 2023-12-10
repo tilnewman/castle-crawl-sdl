@@ -18,7 +18,7 @@
 #include "maps.hpp"
 #include "mouseover.hpp"
 #include "music-player.hpp"
-#include "player.hpp"
+#include "player-display.hpp"
 #include "sdl-manager.hpp"
 #include "sound-player.hpp"
 #include "state-manager.hpp"

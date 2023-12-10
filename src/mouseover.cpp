@@ -9,7 +9,7 @@
 #include "font.hpp"
 #include "layout.hpp"
 #include "map.hpp"
-#include "player.hpp"
+#include "player-display.hpp"
 #include "sdl-manager.hpp"
 #include "sdl-util.hpp"
 
