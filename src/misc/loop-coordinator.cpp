@@ -24,7 +24,7 @@ namespace castlecrawl
         , m_map()
         , m_maps()
         , m_mapDisplay()
-        , m_player()
+        , m_playerDisplay()
         , m_random()
         , m_sfx(m_random)
         , m_music()
@@ -45,7 +45,7 @@ namespace castlecrawl
               m_maps,
               m_mapDisplay,
               m_stateManager,
-              m_player,
+              m_playerDisplay,
               m_random,
               m_sfx,
               m_music,

@@ -1,7 +1,7 @@
 #ifndef PLAYERDISPLAY_HPP_INCLUDED
 #define PLAYERDISPLAY_HPP_INCLUDED
 //
-// player.hpp
+// player-display.hpp
 //
 #include "display/shaker.hpp"
 #include "map/map-types.hpp"
@@ -10,10 +10,10 @@ namespace castlecrawl
 {
     struct Context;
 
-    class Player
+    class PlayerDisplay
     {
       public:
-        Player();
+        PlayerDisplay();
 
         void update(const float frameTimeSec);
         const MapPos_t position() const { return m_mapPos; }

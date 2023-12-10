@@ -143,7 +143,7 @@ namespace castlecrawl
         }
         else
         {
-            if (context.player.isPosNextTo(enemy.position))
+            if (context.player_display.isPosNextTo(enemy.position))
             {
                 attack(context, enemy);
             }
@@ -177,12 +177,12 @@ namespace castlecrawl
                 std::end(possibleMoveCells),
                 [&](const MapCell & A, const MapCell & B) {
                     return (
-                        distance(context.player.position(), A.position) <
-                        distance(context.player.position(), B.position));
+                        distance(context.player_display.position(), A.position) <
+                        distance(context.player_display.position(), B.position));
                 });
 
             const int shortestDistance =
-                distance(possibleMoveCells.front().position, context.player.position());
+                distance(possibleMoveCells.front().position, context.player_display.position());
 
             possibleMoveCells.erase(
                 std::remove_if(
@@ -190,7 +190,7 @@ namespace castlecrawl
                     std::end(possibleMoveCells),
                     [&](const MapCell & cell) {
                         return (
-                            distance(context.player.position(), cell.position) > shortestDistance);
+                            distance(context.player_display.position(), cell.position) > shortestDistance);
                     }),
                 std::end(possibleMoveCells));
         }
@@ -239,7 +239,7 @@ namespace castlecrawl
             std::remove_if(
                 std::begin(cells),
                 std::end(cells),
-                [&](const MapCell & cell) { return (cell.position == context.player.position()); }),
+                [&](const MapCell & cell) { return (cell.position == context.player_display.position()); }),
             std::end(cells));
 
         // can't move onto other enemies

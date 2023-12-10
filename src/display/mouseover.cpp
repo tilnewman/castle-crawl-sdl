@@ -5,12 +5,12 @@
 //
 #include "display/mouseover.hpp"
 
-#include "map/map.hpp"
-#include "map/player-display.hpp"
-#include "misc/context.hpp"
 #include "display/font.hpp"
 #include "display/layout.hpp"
 #include "display/sdl-manager.hpp"
+#include "map/map.hpp"
+#include "map/player-display.hpp"
+#include "misc/context.hpp"
 #include "misc/sdl-util.hpp"
 
 #include <SFML/Graphics/Text.hpp>
@@ -77,7 +77,7 @@ namespace castlecrawl
 
         std::string message;
 
-        if (context.player.position() == mapPos)
+        if (context.player_display.position() == mapPos)
         {
             message = "you";
         }

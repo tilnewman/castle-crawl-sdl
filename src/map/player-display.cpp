@@ -16,7 +16,7 @@
 namespace castlecrawl
 {
 
-    Player::Player()
+    PlayerDisplay::PlayerDisplay()
         : m_mapPos{ 0, 0 }
         , m_screenPos{ 0, 0 }
         , m_shaker()
@@ -24,7 +24,7 @@ namespace castlecrawl
         , m_willShake(false)
     {}
 
-    void Player::update(const float frameTimeSec)
+    void PlayerDisplay::update(const float frameTimeSec)
     {
         if (m_willShake)
         {
@@ -40,7 +40,7 @@ namespace castlecrawl
         }
     }
 
-    void Player::position(const Context & context, const MapPos_t & newPosition)
+    void PlayerDisplay::position(const Context & context, const MapPos_t & newPosition)
     {
         // assert newPosition valid? -no, because map transitions are expected to be invalid
 
@@ -48,7 +48,7 @@ namespace castlecrawl
         m_screenPos = context.map.mapPosToScreenPos(context, m_mapPos);
     }
 
-    void Player::draw(const Context & context)
+    void PlayerDisplay::draw(const Context & context)
     {
         const SDL_Rect srcRect = tileImageToRect(TileImage::Avatar);
         SDL_Rect destRect = util::makeRect(m_screenPos, context.layout.cellSize());
@@ -61,7 +61,7 @@ namespace castlecrawl
         context.sdl.blit(context.tile_image.texturePtr(), srcRect, destRect);
     }
 
-    void Player::shake(const Context & context)
+    void PlayerDisplay::shake(const Context & context)
     {
         m_willShake = true;
 
@@ -69,7 +69,7 @@ namespace castlecrawl
             static_cast<int>(static_cast<float>(context.layout.cellSize().x) * 0.1f), 75.0f);
     }
 
-    bool Player::isPosNextTo(const MapPos_t pos) const
+    bool PlayerDisplay::isPosNextTo(const MapPos_t pos) const
     {
         if ((m_mapPos.x == pos.x) && ((m_mapPos.y == (pos.y + 1)) || (m_mapPos.y == (pos.y - 1))))
         {

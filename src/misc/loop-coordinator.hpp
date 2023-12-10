@@ -51,7 +51,7 @@ namespace castlecrawl
         Map m_map;
         Maps m_maps;
         MapDisplay m_mapDisplay;
-        Player m_player;
+        PlayerDisplay m_playerDisplay;
         util::Random m_random;
         util::SoundPlayer m_sfx;
         util::MusicPlayer m_music;

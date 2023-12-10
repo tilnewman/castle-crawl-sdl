@@ -43,7 +43,7 @@ namespace castlecrawl
         loadEnemies(context, context.map);
         context.layout.setupNewMap(context.map.size());
         context.map_display.load(context);
-        context.player.position(context, pos);
+        context.player_display.position(context, pos);
     }
 
     void Maps::load(const Context & context)

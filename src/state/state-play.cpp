@@ -74,7 +74,7 @@ namespace castlecrawl
             m_mouseover.update(context, frameTimeSec);
         }
 
-        context.player.update(frameTimeSec);
+        context.player_display.update(frameTimeSec);
         context.framerate.update(context, frameTimeSec);
         context.anim.update(frameTimeSec);
     }
@@ -87,7 +87,7 @@ namespace castlecrawl
 
         if (!m_fader.isFading())
         {
-            context.player.draw(context);
+            context.player_display.draw(context);
             m_mouseover.draw(context);
         }
 
@@ -133,7 +133,7 @@ namespace castlecrawl
 
     void StatePlay::handlePlayerMove(const Context & context, const SDL_Keycode key)
     {
-        const MapPos_t mapPosBefore = context.player.position();
+        const MapPos_t mapPosBefore = context.player_display.position();
         const MapPos_t mapPosAttempted = moveIfDir(mapPosBefore, key);
         const bool isEnemyInTheWay = context.enemy.isAnyAtMapPos(mapPosAttempted);
         const bool isObjectInTheWay = context.map_object.isAnyAtMapPos(mapPosAttempted);
@@ -162,7 +162,7 @@ namespace castlecrawl
 
         if (didMove)
         {
-            context.player.position(context, mapPosAfter);
+            context.player_display.position(context, mapPosAfter);
 
             if (!handleMapTransition(context, mapPosAfter))
             {
@@ -214,7 +214,7 @@ namespace castlecrawl
 
     void StatePlay::playMoveMusic(const Context & context) const
     {
-        const auto surroundingCells = context.map.surroundingCellsAll(context.player.position());
+        const auto surroundingCells = context.map.surroundingCellsAll(context.player_display.position());
 
         const auto foundLavaIter = std::find_if(
             std::begin(surroundingCells), std::end(surroundingCells), [](const MapCell & cell) {
