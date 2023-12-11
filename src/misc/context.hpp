@@ -14,6 +14,11 @@ namespace util
 
 namespace castlecrawl
 {
+    namespace item
+    {
+        class ItemFactory;
+    }
+
     class SDLManager;
     struct GameConfig;
     class TileImages;
@@ -53,7 +58,8 @@ namespace castlecrawl
             FramerateText & framerateTextParam,
             TopPanel & topPanelParam,
             TurnKeeper & turnKeeperParam,
-            Player & playerParam)
+            Player & playerParam,
+            item::ItemFactory & itemFactoryParam)
             : sdl(sdlManagerParam)
             , config(configParam)
             , tile_image(tileImagesParam)
@@ -74,6 +80,7 @@ namespace castlecrawl
             , top_panel(topPanelParam)
             , turn(turnKeeperParam)
             , player(playerParam)
+            , item_factory(itemFactoryParam)
         {}
 
         SDLManager & sdl;
@@ -96,6 +103,7 @@ namespace castlecrawl
         TopPanel & top_panel;
         TurnKeeper & turn;
         Player & player;
+        item::ItemFactory & item_factory;
     };
 
 } // namespace castlecrawl

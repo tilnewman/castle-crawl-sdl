@@ -10,6 +10,7 @@
 #include "display/sdl-manager.hpp"
 #include "display/tile-images.hpp"
 #include "display/top-panel.hpp"
+#include "item/item-factory.hpp"
 #include "map/enemy.hpp"
 #include "map/map-display.hpp"
 #include "map/map-objects.hpp"
@@ -65,6 +66,7 @@ namespace castlecrawl
         StateManager m_stateManager;
         TurnKeeper m_turnKeeper;
         Player m_player;
+        item::ItemFactory m_itemFactory;
 
         Context m_context;
     };

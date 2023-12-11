@@ -35,6 +35,7 @@ namespace castlecrawl
         , m_stateManager()
         , m_turnKeeper()
         , m_player()
+        , m_itemFactory()
         , m_context(
               m_sdlManager,
               m_config,
@@ -55,7 +56,8 @@ namespace castlecrawl
               m_framerate,
               m_topPanel,
               m_turnKeeper,
-              m_player)
+              m_player,
+              m_itemFactory)
     {}
 
     void LoopCoordinator::playGame()
@@ -92,6 +94,9 @@ namespace castlecrawl
 
         m_anim.setMediaPath((m_config.media_path / "anim").string());
         m_anim.loadAll(m_sdlManager);
+
+        m_itemFactory.processAll();
+        // m_itemFactory.printSummaries();
 
         m_framerate.setup();
         m_fonts.setup(m_config);
